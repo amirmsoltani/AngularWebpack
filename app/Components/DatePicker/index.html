@@ -1,0 +1,46 @@
+<div class="d-flex col-md-6 col-sm-12 flex-wrap position-absolute bg-white shadow-sm" id="date_picker">
+    <div class="w-100 flex-wrap mt-2 mb-1 d-flex justify-content-between border-bottom align-items-center pb-2">
+        <span class="w-100 pb-2 text-center">
+            {{$ctrl.title}}
+        </span>
+        <input type="button" ng-value="$ctrl.type==='M'?'تبدیل به شمسی':'Convert To Gregorian'"
+               ng-click="$ctrl.type = $ctrl.type === 'M'?'J':'M'" class="btn dash"
+               ng-if="$ctrl.changeDate"/>
+        <input type='button' class="btn " ng-value="$ctrl.acceptButton" ng-if="$ctrl.acceptButton"
+               ng-click="$ctrl.onClose()"/>
+        <span type="button" class="fa fa-close date-picker-close position-absolute" ng-if="$ctrl.agent=='mobile' "
+              ng-click="$ctrl.onClose()"></span>
+        <div class="date-picker-days_names w-100 border-bottom-0" ng-if="$ctrl.agent !== 'desktop'">
+            <span class="date-picker-days_name" ng-repeat="name in $ctrl.weekDay[$ctrl.type]">{{name}}</span>
+        </div>
+
+
+    </div>
+    <div class="d-flex months-box flex-wrap">
+        <div class="date-picker-month col-md-6 col-sm-12"
+             ng-repeat="(index,month) in $ctrl.agent ===undefined || $ctrl.agent === 'desktop'?$ctrl.desktop[$ctrl.type]:$ctrl.months[$ctrl.type]">
+            <div class="date-picker-month_nav">
+                <button type="button"
+                        class="date-picker-month_button {{index?'fa fa-angle-right':'	fa fa-angle-left'}}"
+                        ng-click="$ctrl.change_start(index)"
+                        ng-if="($ctrl.agent==='desktop'||$ctrl.agent === undefined)&&((!index&&$ctrl.start)||(index&&$ctrl.start<10))"></button>
+                <span class="date-picker-month_name">{{$ctrl.monthsName[$ctrl.type][month.name]}}</span>
+            </div>
+            <div class="date-picker-month_days">
+                <div class="date-picker-days_names" ng-if="$ctrl.agent === 'desktop'">
+                        <span class="date-picker-days_name"
+                              ng-repeat="name in $ctrl.weekDay[$ctrl.type]">{{name}}</span>
+                </div>
+                <div class="date-picker-days_box">
+                    <button ng-repeat="day in month.days" type="button" class="date-picker-days-day
+                {{day.text !== ''||' date-picker-days-day-disable'}}" ng-mouseleave="$ctrl.onHover(this,$event)"
+                            ng-mouseenter="$ctrl.onHover(this,$event)" ng-click="$ctrl.select(this)"
+                            ng-class="$ctrl.getClass(this)">
+                        {{day.text}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
